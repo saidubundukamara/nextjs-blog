@@ -31,6 +31,21 @@ async function getPosts(userId: string) {
 export default async function DashboardRoute() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
+
+  if (!user || !user.id) {
+    return (
+      <div>
+        <h2 className="text-xl font-medium mb-4">Please sign in to view your dashboard.</h2>
+        <Link
+          href="/api/auth/login"
+          className={buttonVariants({ variant: "default" })}
+        >
+          Sign In
+        </Link>
+      </div>
+    );
+  }
+  
   const data = await getPosts(user.id);
 
   return (
